@@ -25,7 +25,7 @@ module.exports = (app, db) => {
                     }
                 });
             } else {
-                res.send('Note [' + id + '] not Found - Cannot update!'); // Send response headers.
+                res.send('Note ID: "' + id + '" not Found - Cannot update!'); // Send response headers.
             }
         });
     });
