@@ -1,32 +1,51 @@
+// Global Dependancies. (Not to be exported).
 const ObjectID = require("mongodb").ObjectID;
 
+// Export as function.
 module.exports = (app, db) => {
 
-    app.delete('/notes/delAll', (req, res) => { // Delete: DEL Request of ALL data.
+    app.delete('/notes/delete/all', (req, res) => { // Delete: DEL Request, of ALL the records.
 
-        const details = {'_id': {'$exists': true}}; // notes where ID key exists.
+        const filter = {'_id': {'$exists': true}}; // ID key exists.
 
-        db.collection('notes').deleteMany(details, (err) => { // Delet ALL existing notes.
-
+        db.collection('notes').find(filter).toArray((err, results) => { //Find all records, matching criteria (id key exists).
             if (err) {
-                res.send({'error':'Error Occurred'}); // Send/set response headers
+                res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {
-                res.send('Deleted All notes in db.'); // Send/set response headers
+                if (results.length) {
+                    db.collection('notes').deleteMany(filter, (err) => { // Delete ALL existing records, matching criteria.
+                        if (err) {
+                            res.send({'error':'Error Occurred'}); // Send response headers.
+                        } else {
+                            res.send('Deleted All notes in db.'); // Send response headers.
+                        }
+                    });
+                } else {
+                    res.send('No Notes to delete - Notes database is already empty!'); // Send response headers.
+                }
             }
         });
     });
 
-    app.delete('/notes/:id', (req, res) => { // Delete: DEL Request by id.
+
+    app.delete('/notes/delete/:id', (req, res) => { // Delete: DEL Request, of a single record by id.
 
         const id = req.params.id; // Store string id, got from request parameters.
-        const details = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make request using ID info.
+        const filter = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
 
-        db.collection('notes').deleteOne(details, (err) => { // Delete exisitng note by id, in the db.
-
+        db.collection('notes').findOne(filter, (err, results) => { // Query single record, by id in db.
             if (err) {
-                res.send({'error':'Error Occurred'}); // Send/set response headers
+                res.send({'error':'Error Occurred: ' + err}); // Send response headers.
+            } else if (results) {
+                db.collection('notes').deleteOne(filter, (err) => { // Delete exisitng record, by in in the db.
+                    if (err) {
+                        res.send({'error':'Error Occurred: ' + err}); // Send response headers.
+                    } else {
+                        res.send('Note successfully' + id + ' deleted!'); // Send response headers.
+                    }
+                });
             } else {
-                res.send('Note successfully' + id + ' deleted.'); // Send/set response headers
+                res.send('Note [' + id + '] not Found - Cannot delete!'); // Send response headers.
             }
         });
     });

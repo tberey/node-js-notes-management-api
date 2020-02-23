@@ -1,17 +1,15 @@
+// Export as function.
 module.exports = (app, db) => {
 
-    app.post('/notes', (req, res) => { // Create: POST Request.
+    app.post('/notes/create/new', (req, res) => { // Create: POST Request, to create a new record in db.
             
-        const note = {Title: req.body.Title, Note: req.body.Body, Date: (new Date()).toDateString(), Done: false}; // Store the note from targetted key value pairs, sent with request body.
+        const note = {title: req.body.title, note: req.body.note, Date: (new Date()).toDateString(), Done: false}; // Store the note from targetted key value pairs, sent with request body.
         
         db.collection('notes').insertOne(note, (err, results) => { // Create new note in db.
-            
-            //console.log(req.body); // Debugging/Testing purposes. See new notes in request, in terminal.
-
             if (err) {
-                res.send({'error':'Error Occurred: ' + err}); // Send/set response headers.
+                res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {
-                res.send(results.ops[0]); // Send/set response headers.
+                res.send(results.ops[0]); // Send response headers.
             }
         });
     });
