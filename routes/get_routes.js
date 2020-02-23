@@ -127,6 +127,13 @@ module.exports = (app, db) => {
 }
 
 /* Helpful Code:
+https://stackoverflow.com/questions/44915831/how-to-use-nodejs-pop-up-a-alert-window-in-browser
+
+router.post('/path', function(req, res){
+   //do something
+   res.jsonp({success : true})
+});
+
 $.ajax({
     url:"/alert",
     method: "POST",
