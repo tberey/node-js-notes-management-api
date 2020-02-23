@@ -6,7 +6,7 @@
 
 ## A RESTful Contact Lookup API, made in Node, that allows users to performs CRUD operations on a MongoDB Database.
 
-### <i> At the moment this API is setup to allow the four basic crud operation for notes. I.e. {"title": "Test Title of Note", "body": "Test body of the note."} key-value pair, sent in the body of a POST/PUT request, to Create/Update a note in the DB, (in a x-www-form-urlencode). Notes are associated by ID for now.
+### <i> At the moment this API is setup to allows the operations to be performed with key-value pairs, sent in the body of a request, to Create/Update a note in the DB, (in a x-www-form-urlencode). Notes are associated by ID.
 
 
 ***
@@ -18,7 +18,7 @@
 |:---|:---|:---|
 | <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<\noteID>\"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<\noteID>\"</li></ul> |
 | <ul><li>"/notes/new"</li></ul> | <b><u>CREATE</u></b> | <ul><li>"http://localhost:8080/notes/new"</li></ul> |
-| <ul><li>"/notes/del?id=<\noteId>\"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<\noteId>\"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
+| <ul><li>"/notes/del?id=<\noteID>\"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<\noteID>\"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
 
 ##### POST/PUT/DELETE requests also available, with an app like Postman, or other middleware.
 
