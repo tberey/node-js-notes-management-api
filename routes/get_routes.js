@@ -3,7 +3,7 @@ const ObjectID = require("mongodb").ObjectID;
 const $ = require('jquery'); // jQuery module import.
 
 // Export as function.
-module.exports = (app, db) => {
+module.exports = (app, db, test) => {
     
     app.get("/test-api", (req, res) => { // Test end-point.
         res.send('Testing Zone.');
@@ -15,39 +15,35 @@ module.exports = (app, db) => {
     app.get('/notes/new', (req, res) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
         
         const filter = {'_id':{'$exists': true}}; // All notes with an id.
+        
+        // Set queries, if no query string submitted with URI in GET Request.
+        req.query.title = req.query.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
+        req.query.note = req.query.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
-        // Check how many records exists first and return the number.
-        db.collection('notes').find(filter).toArray((err, results) => { // Query all records, to count the number.
+        // Build new note.
+        const note = {
+            Title: req.query.title,
+            Note: req.query.note,
+            Date: (new Date()).toDateString(),
+            Time: `${(new Date()).getHours()}:${(new Date()).getMinutes()}`,
+            ['Note Number']: Math.floor(Math.random() * 99999),
+            Done: false
+        };
+
+        // Create the new note in the db.
+        db.collection('notes').insertOne(note, (err, results) => {
             
-            // Set queries, if no query string submitted with URI in GET Request.
-            req.query.title = req.query.title || 'New Note ' + (results.length+1); // I.e. "?title=<someTitle>".
-            req.query.note = req.query.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
-
-            // Build new note.
-            const note = {
-                Title: req.query.title,
-                Note: req.query.note,
-                Date: (new Date()).toDateString(),
-                Time: `${(new Date()).getHours()}:${(new Date()).getMinutes()}`,
-                ['Note Number']: (results.length+1),
-                Done: false
-            };
-
-            // Create the new note in the db.
-            db.collection('notes').insertOne(note, (err, results) => {
-                
-                if (err) {
-                    res.send({'error':'Error Occurred: ' + err}); // Send response headers.
-                } else {
-                    res.send(results.ops[0]); // Send response headers.
-                }
-            });
+            if (err) {
+                res.send({'error':'Error Occurred: ' + err}); // Send response headers.
+            } else {
+                res.send(results.ops[0]); // Send response headers.
+            }
         });
     });
 
 
     app.get(['/notes/seeAll','/notes/all'], (req, res) => { // Read: GET Request, for querying ALL.
-        
+        console.log(JSON.stringify(test));
         const filter = {'_id':{'$exists': true}}; // All notes with an id.
 
         db.collection('notes').find(filter).toArray((err, results) => { // Query ALL in db.
