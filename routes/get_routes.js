@@ -5,8 +5,9 @@ const $ = require('jquery'); // jQuery module import.
 // Export as function.
 module.exports = (app, db, test) => {
     
-    app.get("/test-api", (req, res) => { // Test end-point.
-        res.send('Testing Zone.');
+    app.get("/notes", (req, res) => { // Test end-point.
+        //res.send('Testing Zone.');
+        res.sendFile('/home/tom/Node.js/src/contact-lookup-API-node/index.html');
         //res.jsonp(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
         //res.json(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
     });
@@ -20,7 +21,7 @@ module.exports = (app, db, test) => {
         req.query.title = req.query.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
         req.query.note = req.query.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
-        // Build new note.
+        // Build new note as object.
         const note = {
             Title: req.query.title,
             Note: req.query.note,
@@ -43,7 +44,7 @@ module.exports = (app, db, test) => {
 
 
     app.get(['/notes/seeAll','/notes/all'], (req, res) => { // Read: GET Request, for querying ALL.
-        console.log(JSON.stringify(test));
+        //console.log(JSON.stringify(test));
         const filter = {'_id':{'$exists': true}}; // All notes with an id.
 
         db.collection('notes').find(filter).toArray((err, results) => { // Query ALL in db.
@@ -52,7 +53,7 @@ module.exports = (app, db, test) => {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {
                 if (results.length) {
-                    res.send(results); // Send response headers.
+                    res.jsonp(results); // Send response headers.
                 } else {
                     res.send('No Notes found - Notes database is empty!'); // Send response headers.
                 }
@@ -169,37 +170,3 @@ module.exports = (app, db, test) => {
         });
     });
 }
-
-/* Helpful Code:
-https://stackoverflow.com/questions/44915831/how-to-use-nodejs-pop-up-a-alert-window-in-browser
-
-router.post('/path', function(req, res){
-   //do something
-   res.jsonp({success : true})
-});
-
-$.ajax({
-    url:"/alert",
-    method: "POST",
-    data : {
-        data : "Data want to send",
-        put : "All goes here",
-        title : "some data",
-        body : "body fo data"
-    },
-    cache : false,
-    success : function (data) {
-        // data is the object that you send form the server by 
-        // res.jsonp();
-        // here data = {success : true}
-        // validate it
-        if(data['success']){
-            alert("Msg to alert");
-        }
-    },
-    error : function () {
-        // some error handling part
-        alert("Error -Something went wrong.");
-    }
-});
-*/

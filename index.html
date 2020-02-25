@@ -2,25 +2,15 @@
 
 -------------------------------------------------------------------------------------------------
 
-An object-oriented approach, to a simple todo list/note taking browser app, written in JavaScript.
-See "README.md" for further information.
-
-There are  functions in this file.
-Function with the largest signature take  arguments, while the median is .
-Largest function has  statements in it, while the median is .
-The most complex function has a cyclomatic complexity value of , while the median is .
-
+CLIENT-SIDE LANDING PAGE
 
 ============================================================================================
 
-Remote/Repo Name: https://github.com/tberey/object-oriented-todo-note-taker
+Remote/Repo Name: https://github.com/tberey/node-js-api
 
-Branch Name: https://github.com/tberey/object-oriented-todo-note-taker/tree/master
+Branch Name: https://github.com/tberey/node-js-api/tree/master
 
 ============================================================================================
-
-
-1) Export/Import to/from JSON document? Or XML, or text files? As a de-facto database.
 
 -->
 
@@ -32,7 +22,7 @@ Branch Name: https://github.com/tberey/object-oriented-todo-note-taker/tree/mast
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 			<title>Front-End</title>
 		<meta name="author" content="Tom B">
-		<meta name="description" content="Front-End">
+		<meta name="description" content="">
         
         <!-- Set in-page CSS styling. -->
         <style type="text/css">
@@ -50,6 +40,15 @@ Branch Name: https://github.com/tberey/object-oriented-todo-note-taker/tree/mast
                 width: 60%;
                 margin-bottom: 6px;
                 margin-left: 3px;
+            }
+
+            p, b {
+                margin-left: 3px;
+            }
+
+            sup {
+                float: right;
+                margin-right: 4px;
             }
 
             .inputForm {
@@ -73,22 +72,25 @@ Branch Name: https://github.com/tberey/object-oriented-todo-note-taker/tree/mast
     
     <!-- Begin Main Body. -->
 	<body>
-        <form class="inputForm">
+        <div class="inputForm">
             <b><u><h2>Create a New Note:</h2></u></b><hr>
             1) Title: *<br><input type="text" id="title-input"><br>
             2) Note: *<br><input type="text" id="note-input"><br>
-            <button id="new-entry" type="button">New Entry</button><button id="all-entry" type="button">View All</button><button id="del-all" type="button">DELETE ALL</button><br>
-        </form>
+            <button id="new-entry" type="button">Create Note</button><br><hr>
+            <b><u><h2>Your Newest Note:</h2></u></b>
+            <p id ="last-entry"></p>
+        </div>
         
         <div class="outputForm">
+            <input type="button" id="all-entry" value="Show All">
+            <input type="button" id="all-del" value="DELETE ALL!!!">
             <b><u><h2>Your Notes:</h2></u></b><hr>
-            <iframe id="db-view" width="99.6%" height="62.5%" src=""></iframe>
+            <p id ="note"></p>
         </div>
         
         <!-- Begin Scripting. -->
         <script type="text/javascript">
             // Global Space
-            //
 
 			// Wait for page to be ready.
 			if (document.addEventListener) document.addEventListener("DOMContentLoaded", initialised, false);
@@ -96,56 +98,76 @@ Branch Name: https://github.com/tberey/object-oriented-todo-note-taker/tree/mast
             
             function initialised() {
                 
-                //THIS IS ONLY TEMPORARY - AJAJ POST, etc.....
-                
+                // Set event listener on button, to call anon function, which sends a XMLHttp GET request to add a new note to database.
 				document.getElementById('new-entry').addEventListener('click',() => {
+                    document.querySelector('#last-entry').innerHTML = ''; // Clear input side (newest entry), to prevent concatonation/repeated notes.
+
+                    // Clear input fields after capturing their values for query string GET Req.
                     let title = document.getElementById('title-input').value;
+                    document.getElementById('title-input').value = '';
                     let note = document.getElementById('note-input').value;
-                    document.getElementById('db-view').src = 'http://localhost:8080/notes/new?title=' + title + '&note=' + note;
+                    document.getElementById('note-input').value = '';
+                    
+                    var xhttp = new XMLHttpRequest(); // New request.
+                    xhttp.onreadystatechange = function() { // On receipt of a state change from server, call anon func.
+                        if (this.readyState == 4 && this.status == 200) {
+                            
+                            let lastNote = JSON.parse(xhttp.response)
+
+                            document.querySelector('#last-entry').insertAdjacentHTML('beforeend', //Prepend each html block on each loop iteration. Data from object props.
+                                `<span class="entries">
+                                <p><b>Date & Time Created: </b>${lastNote.Date}, @ ${lastNote.Time}</p>
+                                <p><b>TITLE: </b>${lastNote.Title}</p>
+                                <p><b>BODY: </b>${lastNote.Note}</p>
+                                </span><hr>`
+                            );
+                        }
+                    }
+                    xhttp.open("GET", 'http://localhost:8080/notes/new?title=' + title + '&note=' + note, true); // URI src & Request Method (GET). (Async is true).
+                    xhttp.send(); // Send Request.
                 });
 
+                // Set event listener on button, to call anon function, which sends a XMLHttp GET request to read all notes in database.
                 document.getElementById('all-entry').addEventListener('click',() => {
-                    document.getElementById('db-view').src = 'http://localhost:8080/notes/all';
+                    document.querySelector('#note').innerHTML = '';// Clear output, to prevent concatonation/repeated notes.
+                    
+                    var xhttp = new XMLHttpRequest(); // New request.
+                    xhttp.onreadystatechange = function() { // On receipt of a state change from server, call anon func.
+                        if (this.readyState == 4 && this.status == 200) { // Wait for healthy connection and state.
+                            
+                            // Convert string response body as JSON and return to assigned var. If nothing to convert, will return emtpy string (so not to loop).
+                            let allNotes = (val) => {
+                                (xhttp.response.indexOf('No Notes found') == -1) ? val = JSON.parse(xhttp.response) : val = '' ;
+                                return val
+                            }
+
+                            if (!(allNotes().length)) document.querySelector('#note').innerHTML = xhttp.responseText; // If empty databse, return server message.
+
+                            // Build returned data into DOM.
+                            for (let i=0; i < allNotes().length; i++) { // Iterate (loop) through all notes returned from databse.
+                                document.querySelector('#note').insertAdjacentHTML('beforeend', //Prepend each html block on each loop iteration. Data from object props.
+                                    `<span class="entries">
+                                    <p><b>Date & Time Created: </b>${allNotes()[i].Date}, @ ${allNotes()[i].Time}</p>
+                                    <p><b>TITLE: </b>${allNotes()[i].Title}</p>
+                                    <p><b>BODY: </b>${allNotes()[i].Note}</p>
+                                    </span><hr>`
+                                );
+                            }
+                        }
+                    };
+                    xhttp.open("GET", 'http://localhost:8080/notes/all', true); // URI/src & Request Method (GET). (Async is true).
+                    xhttp.send(); // Send Request.
                 });
                 
-                document.getElementById('del-all').addEventListener('click',() => {
-                    document.getElementById('db-view').src = 'http://localhost:8080/notes/delAll';
+                document.getElementById('all-del').addEventListener('click',() => {
+                    document.querySelector('#note').innerHTML = 'DELETED ALL YOUR NOTES!';// Clear output, and show deleted message (Update to show server message).
+                    document.querySelector('#last-entry').innerHTML = ''; // Clear input side.
+
+                    var xhttp = new XMLHttpRequest(); // New request.
+                    xhttp.open("GET", 'http://localhost:8080/notes/delAll', true); // URI src & Request Method (GET). (Async is true).
+                    xhttp.send(); // Send Request.
                 });
             }
-            
-                /* Helpful Code:
-                https://stackoverflow.com/questions/44915831/how-to-use-nodejs-pop-up-a-alert-window-in-browser
-
-                router.post('/path', function(req, res){
-                //do something
-                res.jsonp({success : true})
-                });
-
-                $.ajax({
-                    url:"/alert",
-                    method: "POST",
-                    data : {
-                        data : "Data want to send",
-                        put : "All goes here",
-                        title : "some data",
-                        body : "body fo data"
-                    },
-                    cache : false,
-                    success : function (data) {
-                        // data is the object that you send form the server by 
-                        // res.jsonp();
-                        // here data = {success : true}
-                        // validate it
-                        if(data['success']){
-                            alert("Msg to alert");
-                        }
-                    },
-                    error : function () {
-                        // some error handling part
-                        alert("Error -Something went wrong.");
-                    }
-                });
-                */
 		</script>
 	</body>
 </html>

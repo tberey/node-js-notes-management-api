@@ -5,8 +5,6 @@ Notes:
 'npm run dev' to run & start watching for changes to the scripts/files.
 
 Add a way to find id's/store/send to whom add notes.
-
-Use object note project as bassline for front and back-end connection - Use the object note building to submit a post request for example.
 */
 
 // Global Dependancies.

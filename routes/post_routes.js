@@ -2,7 +2,8 @@
 module.exports = (app, db) => {
 
     app.post('/notes/create/new', (req, res) => { // Create: POST Request, to create a new record in db.
-            
+        
+        // Build new note as a object.
         const note = {
             Title: req.query.title,
             Note: req.query.note,
@@ -21,37 +22,3 @@ module.exports = (app, db) => {
         });
     });
 }
-
-/* Helpful Code:
-https://stackoverflow.com/questions/44915831/how-to-use-nodejs-pop-up-a-alert-window-in-browser
-
-router.post('/path', function(req, res){
-   //do something
-   res.jsonp({success : true})
-});
-
-$.ajax({
-    url:"/alert",
-    method: "POST",
-    data : {
-        data : "Data want to send",
-        put : "All goes here",
-        title : "some data",
-        body : "body fo data"
-    },
-    cache : false,
-    success : function (data) {
-        // data is the object that you send form the server by 
-        // res.jsonp();
-        // here data = {success : true}
-        // validate it
-        if(data['success']){
-            alert("Msg to alert");
-        }
-    },
-    error : function () {
-        // some error handling part
-        alert("Error -Something went wrong.");
-    }
-});
-*/
