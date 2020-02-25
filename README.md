@@ -11,11 +11,11 @@
 
 ***
 
-## NEW FRONT-END HOMEPAGE or LANDING PAGE: http://localhost:<Port>/notes - (Serves "index.html").
+## NEW FRONT-END HOMEPAGE or LANDING PAGE: http://localhost:<\Port>\/notes - (Serves "index.html").
 
 ***
 
-#### List of URL(http://localhost:<Port>/) + URN (End-points), for Requests against a MongoDB, that are currently available:
+#### List of URL(http://localhost:<\Port>\/) + URN (End-points), for Requests against a MongoDB, that are currently available:
 
 | URN | Action on DB | Full URI (Using some port, e.g. "8080") |
 |:---|:---|:---|
