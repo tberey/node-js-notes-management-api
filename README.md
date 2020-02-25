@@ -11,7 +11,8 @@
 
 ***
 
-## NEW FRONT-END HOMEPAGE or LANDING PAGE: http://localhost:<\Port>\/notes - (Serves "index.html").
+## NEW FRONT-END HOMEPAGE or LANDING PAGE:
+### <b>http://localhost:<\Port>\/notes - (Serves "index.html").</b>
 
 ***
 
