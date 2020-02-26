@@ -24,6 +24,7 @@
 | <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<\noteID>\"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<\noteID>\"</li></ul> |
 | <ul><li>"/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
 | <ul><li>"/notes/del?id=<\noteID>\"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<\noteID>\"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
+| <ul><li>"/notes"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/notes"</li></ul> |
 
 ##### POST/PUT/DELETE requests available with an app like Postman, or other middleware.
 
