@@ -102,17 +102,26 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
 				document.getElementById('new-entry').addEventListener('click',() => {
                     document.querySelector('#last-entry').innerHTML = ''; // Clear input side (newest entry), to prevent concatonation/repeated notes.
 
-                    // Clear input fields after capturing their values for query string GET Req.
+                    // Clear input fields after capturing their values for parameters string, for POST Req.
                     let title = document.getElementById('title-input').value;
                     document.getElementById('title-input').value = '';
                     let note = document.getElementById('note-input').value;
                     document.getElementById('note-input').value = '';
+
+                    // Initialise a new request, and assign source url & parameters for it.
+                    var xhttp = new XMLHttpRequest();
+                    let url = 'http://localhost:8080/notes/create/new';
+                    let bodyParameters = 'title='+ title + '&note=' + note;
                     
-                    var xhttp = new XMLHttpRequest(); // New request.
+                    xhttp.open('POST', url, true);// Open the request, POST. Async true.
+
+                    // Set correct header information with request, after xhttp has opened.
+                    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
                     xhttp.onreadystatechange = function() { // On receipt of a state change from server, call anon func.
-                        if (this.readyState == 4 && this.status == 200) {
+                        if(xhttp.readyState == 4 && xhttp.status == 200) { // Wait for healthy connection and state.
                             
-                            let lastNote = JSON.parse(xhttp.response)
+                            let lastNote = JSON.parse(xhttp.response); //Parse received string as a JSON, to access properties.
 
                             document.querySelector('#last-entry').insertAdjacentHTML('beforeend', //Prepend each html block on each loop iteration. Data from object props.
                                 `<span class="entries">
@@ -123,9 +132,9 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                             );
                         }
                     }
-                    xhttp.open("GET", 'http://localhost:8080/notes/new?title=' + title + '&note=' + note, true); // URI src & Request Method (GET). (Async is true).
-                    xhttp.send(); // Send Request.
+                    xhttp.send(bodyParameters);
                 });
+
 
                 // Set event listener on button, to call anon function, which sends a XMLHttp GET request to read all notes in database.
                 document.getElementById('all-entry').addEventListener('click',() => {
@@ -159,6 +168,7 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                     xhttp.send(); // Send Request.
                 });
                 
+
                 document.getElementById('all-del').addEventListener('click',() => {
                     document.querySelector('#note').innerHTML = 'DELETED ALL YOUR NOTES!';// Clear output, and show deleted message (Update to show server message).
                     document.querySelector('#last-entry').innerHTML = ''; // Clear input side.
