@@ -41,7 +41,7 @@ module.exports = (app, db) => {
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
                     } else {
-                        res.send('Note successfully' + id + ' deleted!'); // Send response headers.
+                        res.send('Note ' + id + ' successfully deleted!'); // Send response headers.
                     }
                 });
             } else {
