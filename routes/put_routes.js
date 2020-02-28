@@ -15,13 +15,18 @@ module.exports = (app, db) => {
             } else if (results) {
                 
                 // Store the note update from targetted key value pairs, sent with request body. Atomic operator ($set:) to read and write at same time.
-                const note = {$set:{Title: req.body.title, Note: req.body.note}}; // Atomic operator ($set:) to read and write at same time.
+                const note = {$set:{Title: req.body.title, Note: req.body.note}};
+                
+                // Update the already queried note, to display in html on successful update.
+                results.Title = req.body.title;
+                results.Note = req.body.note;
                 
                 db.collection('notes').updateOne(filter, note, (err) => { // Update exisitng record, by id, in the db.
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
                     } else {
-                        res.send(note); // Send response headers.
+                        console.log([note, results]);
+                        res.send([note,results]); //Send response headers.
                     }
                 });
             } else {

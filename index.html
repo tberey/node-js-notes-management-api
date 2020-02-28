@@ -136,6 +136,7 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                                 <p><b>TITLE: </b>${lastNote.Title}</p>
                                 <p><b>BODY: </b>${lastNote.Note}</p>
                                 <p><b>ID: </b>${lastNote._id}</p>
+                                <p><b>Note Number: </b>${lastNote['Note Number']}</p>
                                 </span><hr>`
                             );
                         }
@@ -174,6 +175,7 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                                     <p><b>TITLE: </b>${allNotes()[i].Title}</p>
                                     <p><b>BODY: </b>${allNotes()[i].Note}</p>
                                     <p><b>ID: </b>${allNotes()[i]._id}</p>
+                                    <p><b>Note Number: </b>${allNotes()[i]['Note Number']}</p>
                                     </span><hr>`
                                 );
                             }
@@ -260,6 +262,7 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                                 <p><b>TITLE: </b>${foundNote.Title}</p>
                                 <p><b>BODY: </b>${foundNote.Note}</p>
                                 <p><b>ID: </b>${foundNote._id}</p>
+                                <p><b>Note Number: </b>${foundNote['Note Number']}</p>
                                 </span><hr>`
                             );
                         }
@@ -293,19 +296,20 @@ Branch Name: https://github.com/tberey/node-js-api/tree/master
                     xhttp.open('PUT', url, true); // Open the request url, with a PUT. Async true.
                     document.querySelector('#note').innerHTML = 'Note ' + id + ' not found!'; //Init output response, with a default/catch.
                     xhttp.onreadystatechange = function() { // On receipt of a state change from server, call anon func.
-                        console.log(this.readyState);
-                        console.log(this.status);
+                        //console.log(this.readyState);
+                        //console.log(this.status);
                         if (this.readyState == 4 && this.status == 200) { // Wait for healthy connection and state.
                             
                             let updatedNote = JSON.parse(xhttp.response); //Parse received string as a JSON, to access as properties.
-
+                            console.log(updatedNote)
                             document.querySelector('#note').innerHTML = ''; // Clear output of default repsonse.
                             document.querySelector('#last-entry').insertAdjacentHTML('beforeend', //Prepend each html block on each loop iteration. Data from object props.
                                 `<span class="entries">
-                                <p><b>Date & Time Created: </b>${updatedNote.Date}, @ ${updatedNote.Time}</p>
-                                <p><b>TITLE: </b>${updatedNote.Title}</p>
-                                <p><b>BODY: </b>${updatedNote.Note}</p>
-                                <p><b>ID: </b>${updatedNote._id}</p>
+                                <p><b>Date & Time Created: </b>${updatedNote[1].Date}, @ ${updatedNote[1].Time}</p>
+                                <p><b>TITLE: </b>${updatedNote[1].Title}</p>
+                                <p><b>BODY: </b>${updatedNote[1].Note}</p>
+                                <p><b>ID: </b>${updatedNote[1]._id}</p>
+                                <p><b>Note Number: </b>${updatedNote[1]['Note Number']}</p>
                                 </span><hr>`
                             );
                         }

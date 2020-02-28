@@ -25,7 +25,7 @@ MongoClient.connect(db.url, { useUnifiedTopology: true }, (err, client) => {
     
     db = client.db('NotesDB'); // Setup database infrastructure, by connecting to specific db collection.
 
-    if (err) return console.log(err); // Error checking in the db connection.
+    if (err) return console.log(err); // Error checking on the db connection.
 
     // Run server and listen for the completed connection.
     app.listen(port, () => {
