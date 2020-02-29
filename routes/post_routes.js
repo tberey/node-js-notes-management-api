@@ -1,3 +1,12 @@
+/* NOTES:-
+
+There are 3 functions in this file.
+Function with the largest signature take 2 arguments, while the median is 2.
+Largest function has 4 statements in it, while the median is 3.
+The most complex function has a cyclomatic complexity value of 3 while the median is 2.
+
+*/
+
 // Export as function.
 module.exports = (app, db) => {
 
@@ -13,7 +22,7 @@ module.exports = (app, db) => {
             Note: req.body.note,
             Date: (new Date()).toDateString(),
             Time: `${(new Date()).getHours()}:${(new Date()).getMinutes()}`,
-            ['Note Number']: Math.floor(Math.random() * 99999),
+            ['Note ID']: Math.floor(Math.random() * 99999),
             Done: false
         };
         
@@ -25,4 +34,4 @@ module.exports = (app, db) => {
             }
         });
     });
-}
+};

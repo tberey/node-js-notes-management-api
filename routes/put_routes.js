@@ -1,5 +1,11 @@
-// Global Dependancies. (Not to be exported).
-const ObjectID = require("mongodb").ObjectID;
+/* NOTES:-
+
+There are 4 functions in this file.
+Function with the largest signature take 2 arguments, while the median is 2.
+Largest function has 7 statements in it, while the median is 3.
+The most complex function has a cyclomatic complexity value of 3 while the median is 1.5.
+
+*/
 
 // Export as function.
 module.exports = (app, db) => {
@@ -7,7 +13,7 @@ module.exports = (app, db) => {
     app.put('/notes/update/:id', (req, res) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
 
         const id = req.params.id; // Store string id, got from request parameters.
-        const filter = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
+        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
         
         db.collection('notes').findOne(filter, (err, results) => { // Query single record, by id in db.
             if (err) {
@@ -25,8 +31,7 @@ module.exports = (app, db) => {
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
                     } else {
-                        console.log([note, results]);
-                        res.send([note,results]); //Send response headers.
+                        res.send([note,results]); //Send array response headers, to display the full note in html.
                     }
                 });
             } else {
@@ -34,4 +39,4 @@ module.exports = (app, db) => {
             }
         });
     });
-}
+};

@@ -1,21 +1,34 @@
+/* NOTES:-
+
+There are 18 functions in this file.
+Function with the largest signature take 2 arguments, while the median is 2.
+Largest function has 8 statements in it, while the median is 3.
+The most complex function has a cyclomatic complexity value of 5 while the median is 2.
+
+*/
+
 // Global Dependancies. (Not to be exported).
 const ObjectID = require("mongodb").ObjectID;
-const $ = require('jquery'); // jQuery module import.
+const path = require('path'); // Dir pathing module.
 
 // Export as function.
-module.exports = (app, db, test) => {
-    
-    app.get("/notes", (req, res) => { // Test end-point.
-        //res.send('Testing Zone.');
-        res.sendFile('/home/tom/Node.js/src/contact-lookup-API-node/index.html');
+module.exports = (app, db) => {
+
+    // Seperate GET request after loading of front-end "index.html", for the page to request the "requests.js" file.
+    app.get('/scripts/requests.js', function(req, res) {
+        res.sendFile('requests.js', { root: path.join(__dirname, '../scripts') });// Serve "requests.js" to html. Specify root (where file sits from currently executing script).
+    });
+
+    // Home-page, front-end for notes management system.
+    app.get("/notes", (req, res) => {
+        res.sendFile('index.html', { root: path.join(__dirname, '../') });// Serve "index.html". Specify root (where file sits from currently executing script).
+
         //res.jsonp(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
         //res.json(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
     });
 
 
     app.get('/notes/new', (req, res) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
-        
-        const filter = {'_id':{'$exists': true}}; // All notes with an id.
         
         // Set queries, if no query string submitted with URI in GET Request.
         req.query.title = req.query.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
@@ -27,7 +40,7 @@ module.exports = (app, db, test) => {
             Note: req.query.note,
             Date: (new Date()).toDateString(),
             Time: `${(new Date()).getHours()}:${(new Date()).getMinutes()}`,
-            ['Note Number']: Math.floor(Math.random() * 99999),
+            ['Note ID']: Math.floor(Math.random() * 99999),
             Done: false
         };
 
@@ -44,7 +57,7 @@ module.exports = (app, db, test) => {
 
 
     app.get(['/notes/seeAll','/notes/all'], (req, res) => { // Read: GET Request, for querying ALL.
-        //console.log(JSON.stringify(test));
+        
         const filter = {'_id':{'$exists': true}}; // All notes with an id.
 
         db.collection('notes').find(filter).toArray((err, results) => { // Query ALL in db.
@@ -128,7 +141,7 @@ module.exports = (app, db, test) => {
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else if (results) {
-                console.log(results.Title);
+                
                 // Set fields to their existing data, if no key/value query is submitted in the URI. Avoids nullifying field that aren't being updated.
                 req.query.title = req.query.title || results.Title; // I.e. "?title=<someTitle>".
                 req.query.note = req.query.note || results.Note; // I.e. "?note=<someTitle>".
@@ -155,12 +168,12 @@ module.exports = (app, db, test) => {
     });
 
 
-    app.get('/notes/:id', (req, res) => { // Read: GET Request for querying one specific id.
+    app.get('/notes/:id', (req, res) => { // Read: GET Request for querying one specific note id.
         
-        const id = req.params.id; // Store string id, got from request parameters. I.e. "/notes/<someID>".
-        const details = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make request using ID info.
+        const id = req.params.id; // Store string id, got from request parameters.
+        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
         
-        db.collection('notes').findOne(details, (err, results) => { // Query by id in db.
+        db.collection('notes').findOne(filter, (err, results) => { // Query by id in db.
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -169,4 +182,4 @@ module.exports = (app, db, test) => {
             }
         });
     });
-}
+};

@@ -5,9 +5,9 @@ const putRoutes = require("./put_routes");
 const delRoutes = require("./del_routes");
 
 // Exports each function as a single function to be exported.
-module.exports = (app, db, test) => {
+module.exports = (app, db) => {
     postRoutes(app, db);
-    getRoutes(app, db, test);
+    getRoutes(app, db);
     putRoutes(app, db);
     delRoutes(app, db);
 }

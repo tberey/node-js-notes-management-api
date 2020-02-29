@@ -4,34 +4,39 @@
 ***
 
 
-## A RESTful Notes Lookup API, made in Node, that allows users to performs CRUD operations on a MongoDB Database.
+## A RESTful Notes Lookup API, made in Node & locally hosted, that allows users to performs CRUD operations on a MongoDB Database, using http requests.
 
-### <i> Description here...
+### <i> Create, search, edit and delete personal notes/todos.
 
+<br>
+
+***
+
+### Client Page (Front-End) Homepage: <br>
+#### <b>http://localhost:<\Port>\/notes</b>
 
 ***
 
-## NEW FRONT-END HOMEPAGE or LANDING PAGE:
-### <b>http://localhost:<\Port>\/notes - (Serves "index.html").</b>
-
-***
+<br><br>
 
 #### List of URL(http://localhost:<\Port>\/) + URN (End-points), for Requests against a MongoDB, that are currently available:
 
 | URN | Action on DB | Full URI (Using some port, e.g. "8080") |
 |:---|:---|:---|
+| <ul><li>"/notes"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/notes"</li></ul> |
 | <ul><li>"/notes/new"</li><li>"/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> | <b><u>CREATE</u></b> | <ul><li>"http://localhost:8080/notes/new"</li><li>"http://localhost:8080/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> |
 | <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<\noteID>\"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<\noteID>\"</li></ul> |
 | <ul><li>"/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
 | <ul><li>"/notes/del?id=<\noteID>\"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<\noteID>\"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
-| <ul><li>"/notes"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/notes"</li></ul> |
 
-##### POST/PUT/DELETE requests available with an app like Postman, or other middleware.
+##### POST/PUT/DELETE requests also available via middleware.
 
+<br>
 
 ***
 ***
 
+<br>
 
 |Version| Changes|
 |:---|:---|
@@ -43,3 +48,4 @@
 |Version 0.2.1 [2020-02-26]|<ul><li>Replace GET method for adding a new note to a POST, in "index.html".</li><li>Add Delete All (DELETE Request) to front end.</li><li>Update server POST Method in routes, to receive parameters from client.</li><li>Update README.md</li></ul>|
 |Version 0.2.2 [2020-02-27]|<ul><li>Add front-end request methods: Update (PUT), Delete (DELETE) & Search (GET), via buttons/input fields.</li><li>Add new sub-input area, with new field and new button (html/css).</li><li>Update README.md</li></ul>|
 |Version 0.2.3 [2020-02-28]|<ul><li>Fix front-end bug, where updated note showing as undefined on page.</li><li>Add new key value pair to note (note number), also displayed to html.</li><li>Update README.md</li></ul>|
+|Version 1.0.0 [2020-02-29]|<ul><li>1.0.0 Release!</li><li>Complete front-end: finalise all ajax requests performed.</li><li>Adjust search via new sorted, better ID number system</li><li>Complete all error handling, including console errors, for all requests/methods.</li><li>Update Screenshot rep, all contents</li><li>Split "index.html" scripting into it's own new dir: scripts/ with filename: "requests.js", as it performs at ajax requests for index page, via JS.</li><li>Update README.md</li></ul>|

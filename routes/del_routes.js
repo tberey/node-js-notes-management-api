@@ -1,5 +1,11 @@
-// Global Dependancies. (Not to be exported).
-const ObjectID = require("mongodb").ObjectID;
+/* NOTES:-
+
+There are 7 functions in this file.
+Function with the largest signature take 2 arguments, while the median is 2.
+Largest function has 5 statements in it, while the median is 3.
+The most complex function has a cyclomatic complexity value of 3 while the median is 2.
+
+*/
 
 // Export as function.
 module.exports = (app, db) => {
@@ -31,7 +37,7 @@ module.exports = (app, db) => {
     app.delete('/notes/delete/:id', (req, res) => { // Delete: DEL Request, of a single record by id.
 
         const id = req.params.id; // Store string id, got from request parameters.
-        const filter = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
+        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
 
         db.collection('notes').findOne(filter, (err, results) => { // Query single record, by id in db.
             if (err) {
@@ -49,4 +55,4 @@ module.exports = (app, db) => {
             }
         });
     });
-}
+};

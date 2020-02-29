@@ -1,10 +1,18 @@
-/*
-Notes:
----------------------------------------------------------------------------
+/* NOTES:-
+
+The main Node.JS file, that is to be called upon initialisation, and starts up the server & db infrastructure.
+
+-------------------------------------------------------------------------------------------------------------------
+
+There are 3 functions in this file.
+Function with the largest signature take 2 arguments, while the median is 2.
+Largest function has 5 statements in it, while the median is 2.
+The most complex function has a cyclomatic complexity value of 2 while the median is 1.
+
+-------------------------------------------------------------------------------------------------------------------
 
 'npm run dev' to run & start watching for changes to the scripts/files.
 
-Add a way to find id's/store/send to whom add notes.
 */
 
 // Global Dependancies.
@@ -12,8 +20,6 @@ const express = require('express'); // Framework.
 const bodyParser = require('body-parser'); // Parse incoming request body for middleware.
 const MongoClient = require('mongodb').MongoClient; // Database client (mongodb).
 var db = require('./config/db'); // Setup database connection infrastructure, by importing url here.
-
-let test = {name:"test",number:1};
 
 // Global Variables
 const app = express(); // Init instance of express framework.
@@ -34,10 +40,10 @@ MongoClient.connect(db.url, { useUnifiedTopology: true }, (err, client) => {
 
     // GET Request, to close db connection, and end all opertaions.
     app.get("/db/close", (req, res) => {
-        client.close(true) // Close connection to db, using force (by passing true).
+        client.close(true); // Close connection to db, using force (by passing true).
         res.json('Closed DB Connection - CRUD operations no longer available, until reconnection.');
     });
 
     // Import routing files, to perform all CRUD operations on db.
-    require("./routes")(app, db, test); // Imported as funcs().
+    require("./routes")(app, db); // Imported as funcs().
 });
