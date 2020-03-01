@@ -13,23 +13,23 @@
 ***
 
 ### Client Page (Front-End) Homepage: <br>
-#### <b>http://localhost:<\Port>\/notes</b>
+#### <b>http://localhost:<Port\>/notes</b>
 
 ***
 
 <br><br>
 
-#### List of URL(http://localhost:<\Port>\/) + URN (End-points), for Requests against a MongoDB, that are currently available:
+#### List of URL(http://localhost:<Port\>/) + URN (End-points), for Requests against a MongoDB, that are currently available:
 
 | URN | Action on DB | Full URI (Using some port, e.g. "8080") |
 |:---|:---|:---|
 | <ul><li>"/notes"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/notes"</li></ul> |
 | <ul><li>"/notes/new"</li><li>"/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> | <b><u>CREATE</u></b> | <ul><li>"http://localhost:8080/notes/new"</li><li>"http://localhost:8080/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> |
-| <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<\noteID>\"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<\noteID>\"</li></ul> |
-| <ul><li>"/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<\noteID>\&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
-| <ul><li>"/notes/del?id=<\noteID>\"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<\noteID>\"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
+| <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<noteID\>"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<noteID\>"</li></ul> |
+| <ul><li>"/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
+| <ul><li>"/notes/del?id=<noteID\>"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<noteID\>"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
 
-##### POST/PUT/DELETE requests also available via middleware.
+##### POST/PUT/DELETE requests also available via a middleware.
 
 <br>
 
