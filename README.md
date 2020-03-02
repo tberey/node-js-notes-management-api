@@ -6,7 +6,7 @@
 
 ## A RESTful Notes Lookup API, made in Node & locally hosted, that allows users to performs CRUD operations on a MongoDB Database, using http requests.
 
-### <i> Create, search, edit and delete personal notes/todos.
+### <i> Create, search, update and delete personal notes/todos.
 
 <br>
 
@@ -29,7 +29,7 @@
 | <ul><li>"/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
 | <ul><li>"/notes/del?id=<noteID\>"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<noteID\>"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
 
-##### POST/PUT/DELETE requests also available via a middleware.
+##### The above are GET requests, to perform db operations: POST/PUT/DELETE requests also available via a middleware, or front-end engagement.
 
 <br>
 
