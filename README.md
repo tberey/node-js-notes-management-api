@@ -1,10 +1,10 @@
-# Notes Lookup API (Node.js)
+# Notes Lookup API (TypeScript + Node.js)
 
 
 ***
 
 
-## A RESTful Notes Lookup API, made in Node & locally hosted, that allows users to performs CRUD operations on a MongoDB Database, using http requests.
+## A RESTful Notes Lookup API, made in TS, Node & Express, using MongoDB. It is a locally hosted server, that allows users to performs CRUD operations on a database, using http requests.
 
 ### <i> Create, search, update and delete personal notes/todos.
 

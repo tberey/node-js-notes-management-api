@@ -10,26 +10,25 @@ Largest function has 5 statements in it, while the median is 2.
 The most complex function has a cyclomatic complexity value of 2 while the median is 1.
 
 -------------------------------------------------------------------------------------------------------------------
-
-'npm run dev' to run & start watching for changes to the scripts/files.
-
 */
 
 // Global Dependancies.
-const express = require('express'); // Framework.
-const bodyParser = require('body-parser'); // Parse incoming request body for middleware.
-const MongoClient = require('mongodb').MongoClient; // Database client (mongodb).
-var db = require('./config/db'); // Setup database connection infrastructure, by importing url here.
+import express from "express"; // Framework.
+import bodyParser from "body-parser"; // Parse incoming request body for middleware.
+import {MongoClient} from "mongodb"; // Database client (mongodb).
+import privateData from "./config/private.json"; // Data imported for database connection infrastructure.
+import appRouting from "./routes";
 
 // Global Variables
-const app = express(); // Init instance of express framework.
-const port = 8080; // Set Port connection for server. http://localhost:8080/
+const app:any = express(); // Init instance of express framework.
+const port:string = process.env.PORT || '8080'; // Set Port connection for server. http://localhost:8080/
+
 app.use(bodyParser.urlencoded({ extended: true })); // Parse url encoded data. I.e. make url encoded readable in middleware.
 
 // Connect to database, which CRUD operation performed against. (Part of database connection infrastructure).
-MongoClient.connect(db.url, { useUnifiedTopology: true }, (err, client) => {
+MongoClient.connect(privateData.db, { useUnifiedTopology: true }, (err:object, client:any) => {
     
-    db = client.db('NotesDB'); // Setup database infrastructure, by connecting to specific db collection.
+    const db:object = client.db('NotesDB'); // Setup database infrastructure, by connecting to specific db collection.
 
     if (err) return console.log(err); // Error checking on the db connection.
 
@@ -39,11 +38,11 @@ MongoClient.connect(db.url, { useUnifiedTopology: true }, (err, client) => {
     });
 
     // GET Request, to close db connection, and end all opertaions.
-    app.get("/db/close", (req, res) => {
+    app.get("/db/close", (req:object, res:any) => {
         client.close(true); // Close connection to db, using force (by passing true).
         res.json('Closed DB Connection - CRUD operations no longer available, until reconnection.');
     });
 
     // Import routing files, to perform all CRUD operations on db.
-    require("./routes")(app, db); // Imported as funcs().
+    appRouting(app, db); // Call imported functions.
 });

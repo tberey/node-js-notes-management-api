@@ -8,34 +8,34 @@ The most complex function has a cyclomatic complexity value of 5 while the media
 */
 
 // Global Dependancies. (Not to be exported).
-const ObjectID = require("mongodb").ObjectID;
-const path = require('path'); // Dir pathing module.
+import {ObjectID} from "mongodb";
+import path from "path";
 
 // Export as function.
-module.exports = (app, db) => {
-
+export default (app:any, db:any) => {
+    
     // Seperate GET request after loading of front-end "index.html", for the page to request the "requests.js" file.
-    app.get('/scripts/requests.js', function(req, res) {
-        res.sendFile('requests.js', { root: path.join(__dirname, '../scripts') });// Serve "requests.js" to html. Specify root (where file sits from currently executing script).
+    app.get('/scripts/requests.js', (req:object, res:any) => {
+        res.sendFile('requests.js', { root: path.join(__dirname, '../../scripts') });// Serve "requests.js" to html. Specify root (where file sits from currently executing script).
     });
 
     // Home-page, front-end for notes management system.
-    app.get("/notes", (req, res) => {
-        res.sendFile('index.html', { root: path.join(__dirname, '../') });// Serve "index.html". Specify root (where file sits from currently executing script).
+    app.get("/notes", (req:object, res:any) => {
+        res.sendFile('index.html', { root: path.join(__dirname, '../../') });// Serve "index.html". Specify root (where file sits from currently executing script).
 
         //res.jsonp(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
         //res.json(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
     });
 
 
-    app.get('/notes/new', (req, res) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
+    app.get('/notes/new', (req:any, res:any) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
         
         // Set queries, if no query string submitted with URI in GET Request.
         req.query.title = req.query.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
         req.query.note = req.query.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
         // Build new note as object.
-        const note = {
+        const note:object = {
             Title: req.query.title,
             Note: req.query.note,
             Date: (new Date()).toDateString(),
@@ -45,7 +45,7 @@ module.exports = (app, db) => {
         };
 
         // Create the new note in the db.
-        db.collection('notes').insertOne(note, (err, results) => {
+        db.collection('notes').insertOne(note, (err:string, results:any) => {
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -56,11 +56,11 @@ module.exports = (app, db) => {
     });
 
 
-    app.get(['/notes/seeAll','/notes/all'], (req, res) => { // Read: GET Request, for querying ALL.
+    app.get(['/notes/seeAll','/notes/all'], (req:object, res:any) => { // Read: GET Request, for querying ALL.
         
-        const filter = {'_id':{'$exists': true}}; // All notes with an id.
+        const filter:object = {'_id':{'$exists': true}}; // All notes with an id.
 
-        db.collection('notes').find(filter).toArray((err, results) => { // Query ALL in db.
+        db.collection('notes').find(filter).toArray((err:string, results:any) => { // Query ALL in db.
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -75,19 +75,19 @@ module.exports = (app, db) => {
     });
 
 
-    app.get('/notes/delAll', (req, res) => { // Read: GET Request, for deleting ALL records in db.
+    app.get('/notes/delAll', (req:object, res:any) => { // Read: GET Request, for deleting ALL records in db.
         
-        const filter = {'_id':{'$exists': true}}; // All notes with an id.
+        const filter:object = {'_id':{'$exists': true}}; // All notes with an id.
 
         // Query all records first, to check if any exist to delete.
-        db.collection('notes').find(filter).toArray((err, results) => {
+        db.collection('notes').find(filter).toArray((err:string, results:any) => {
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {
                 if (results.length) {
 
-                    db.collection('notes').deleteMany(filter, (err) => { // Delete ALL the existing notes.
+                    db.collection('notes').deleteMany(filter, (err:string) => { // Delete ALL the existing notes.
                         
                         if (err) {
                             res.send({'error':'Error Occurred'}); // Send response headers
@@ -103,19 +103,19 @@ module.exports = (app, db) => {
     });
 
 
-    app.get('/notes/del', (req, res) => { // Delete: DEL Request, of a single record by id.
+    app.get('/notes/del', (req:any, res:any) => { // Delete: DEL Request, of a single record by id.
         
-        const id = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
-        const filter = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
+        const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
+        const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
         
         // Qeury the note user is attempting to delete first, to ensure it exists to del.
-        db.collection('notes').findOne(filter, (err, results) => {
+        db.collection('notes').findOne(filter, (err:string, results:object) => {
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else if (results) {
                 
-                db.collection('notes').deleteOne(filter, (err) => { // Delete the exisitng record, by in in the db.
+                db.collection('notes').deleteOne(filter, (err:string) => { // Delete the exisitng record, by in in the db.
                     
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -130,13 +130,13 @@ module.exports = (app, db) => {
     });
 
 
-    app.get('/notes/update', (req, res) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
+    app.get('/notes/update', (req:any, res:any) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
         
-        const id = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
-        const filter = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
+        const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
+        const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
         
         // Query the record id first, to make sure it exists to update.
-        db.collection('notes').findOne(filter, (err, results) => {
+        db.collection('notes').findOne(filter, (err:string, results:any) => {
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -147,13 +147,13 @@ module.exports = (app, db) => {
                 req.query.note = req.query.note || results.Note; // I.e. "?note=<someTitle>".
 
                 // Build note used to update record. Data is pulled from the query string. I.e. "?title=<someTitle>".
-                const note = {$set:{ // Atomic operator ($set:) to read and write at same time. Any not set in query string are nulled.
+                const note:object = {$set:{ // Atomic operator ($set:) to read and write at same time. Any not set in query string are nulled.
                     Title: req.query.title,
                     Note: req.query.note,
                     ['Last Updated']: `At ${(new Date()).getHours()}:${(new Date()).getMinutes()}, on ${(new Date()).toDateString()}.`
                 }};
 
-                db.collection('notes').updateOne(filter, note, (err) => { // Update  the exisitng record, by id, in the db.
+                db.collection('notes').updateOne(filter, note, (err:string) => { // Update  the exisitng record, by id, in the db.
                     
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
@@ -168,12 +168,12 @@ module.exports = (app, db) => {
     });
 
 
-    app.get('/notes/:id', (req, res) => { // Read: GET Request for querying one specific note id.
+    app.get('/notes/:id', (req:any, res:any) => { // Read: GET Request for querying one specific note id.
         
-        const id = req.params.id; // Store string id, got from request parameters.
-        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
+        const id:string = req.params.id; // Store string id, got from request parameters.
+        const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
         
-        db.collection('notes').findOne(filter, (err, results) => { // Query by id in db.
+        db.collection('notes').findOne(filter, (err:string, results:object) => { // Query by id in db.
             
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.

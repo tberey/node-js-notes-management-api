@@ -8,26 +8,26 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 */
 
 // Export as function.
-module.exports = (app, db) => {
+export default (app:any, db:any) => {
 
-    app.put('/notes/update/:id', (req, res) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
+    app.put('/notes/update/:id', (req:any, res:any) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
 
-        const id = req.params.id; // Store string id, got from request parameters.
-        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
+        const id:string = req.params.id; // Store string id, got from request parameters.
+        const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
         
-        db.collection('notes').findOne(filter, (err, results) => { // Query single record, by id in db.
+        db.collection('notes').findOne(filter, (err:string, results:any) => { // Query single record, by id in db.
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else if (results) {
                 
                 // Store the note update from targetted key value pairs, sent with request body. Atomic operator ($set:) to read and write at same time.
-                const note = {$set:{Title: req.body.title, Note: req.body.note}};
+                const note:object = {$set:{Title: req.body.title, Note: req.body.note}};
                 
                 // Update the already queried note, to display in html on successful update.
                 results.Title = req.body.title;
                 results.Note = req.body.note;
                 
-                db.collection('notes').updateOne(filter, note, (err) => { // Update exisitng record, by id, in the db.
+                db.collection('notes').updateOne(filter, note, (err:string) => { // Update exisitng record, by id, in the db.
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
                     } else {

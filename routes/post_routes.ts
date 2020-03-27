@@ -8,16 +8,16 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 */
 
 // Export as function.
-module.exports = (app, db) => {
+export default (app:any, db:any) => {
 
-    app.post('/notes/create/new', (req, res) => { // Create: POST Request, to create a new record in db.
+    app.post('/notes/create/new', (req:any, res:any) => { // Create: POST Request, to create a new record in db.
         
         // Set parameters, if none submitted with POST Request.
         req.body.title = req.body.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
         req.body.note = req.body.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
         // Build new note as a object.
-        const note = {
+        const note:object = {
             Title: req.body.title,
             Note: req.body.note,
             Date: (new Date()).toDateString(),
@@ -26,7 +26,7 @@ module.exports = (app, db) => {
             Done: false
         };
         
-        db.collection('notes').insertOne(note, (err, results) => { // Create new note in db.
+        db.collection('notes').insertOne(note, (err:string, results:any) => { // Create new note in db.
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {

@@ -1,11 +1,11 @@
 // Main Routing Traffic - Import CRUD Methods from their respective files, to export as nested functions.
-const postRoutes = require("./post_routes");
-const getRoutes = require("./get_routes");
-const putRoutes = require("./put_routes");
-const delRoutes = require("./del_routes");
+import postRoutes from "./post_routes";
+import getRoutes from "./get_routes";
+import putRoutes from "./put_routes";
+import delRoutes from "./del_routes";
 
 // Exports each function as a single function to be exported.
-module.exports = (app, db) => {
+export default (app:object, db:object) => {
     postRoutes(app, db);
     getRoutes(app, db);
     putRoutes(app, db);

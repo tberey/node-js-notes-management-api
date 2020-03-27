@@ -8,20 +8,20 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 */
 
 // Export as function.
-module.exports = (app, db) => {
+export default (app:any, db:any) => {
 
-    app.delete('/notes/delete/all', (req, res) => { // Delete: DEL Request, of ALL the records.
+    app.delete('/notes/delete/all', (req:object, res:any) => { // Delete: DEL Request, of ALL the records.
 
-        const filter = {'_id': {'$exists': true}}; // ID key exists.
+        const filter:object = {'_id': {'$exists': true}}; // ID key exists.
 
-        db.collection('notes').find(filter).toArray((err, results) => { //Find all records, matching criteria (id key exists).
+        db.collection('notes').find(filter).toArray((err:string, results:any) => { //Find all records, matching criteria (id key exists).
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else {
                 if (results.length) {
-                    db.collection('notes').deleteMany(filter, (err) => { // Delete ALL existing records, matching criteria.
+                    db.collection('notes').deleteMany(filter, (err:string) => { // Delete ALL existing records, matching criteria.
                         if (err) {
-                            res.send({'error':'Error Occurred'}); // Send response headers.
+                            res.send({'error':'Error Occurred:' + err}); // Send response headers.
                         } else {
                             res.send('Deleted All notes in db.'); // Send response headers.
                         }
@@ -34,16 +34,16 @@ module.exports = (app, db) => {
     });
 
 
-    app.delete('/notes/delete/:id', (req, res) => { // Delete: DEL Request, of a single record by id.
+    app.delete('/notes/delete/:id', (req:any, res:any) => { // Delete: DEL Request, of a single record by id.
 
-        const id = req.params.id; // Store string id, got from request parameters.
-        const filter = { [['Note ID']]: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
+        const id:string = req.params.id; // Store string id, got from request parameters.
+        const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
 
-        db.collection('notes').findOne(filter, (err, results) => { // Query single record, by id in db.
+        db.collection('notes').findOne(filter, (err:string, results:object) => { // Query single record, by id in db.
             if (err) {
                 res.send({'error':'Error Occurred: ' + err}); // Send response headers.
             } else if (results) {
-                db.collection('notes').deleteOne(filter, (err) => { // Delete exisitng record, by in in the db.
+                db.collection('notes').deleteOne(filter, (err:string) => { // Delete exisitng record, by in in the db.
                     if (err) {
                         res.send({'error':'Error Occurred: ' + err}); // Send response headers.
                     } else {
