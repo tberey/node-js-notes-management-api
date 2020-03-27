@@ -4,7 +4,7 @@
 ***
 
 
-## A RESTful Notes Lookup API, made in TS, Node & Express, using MongoDB. It is a locally hosted server, that allows users to performs CRUD operations on a database, using http requests.
+## A RESTful Notes Lookup API, made in TS, Node & Express Framework, using MongoDB database. A locally hosted server, that allows users to performs CRUD operations on a database, using http requests.
 
 ### <i> Create, search, update and delete personal notes/todos.
 
@@ -49,3 +49,4 @@
 |Version 0.2.2 [2020-02-27]|<ul><li>Add front-end request methods: Update (PUT), Delete (DELETE) & Search (GET), via buttons/input fields.</li><li>Add new sub-input area, with new field and new button (html/css).</li><li>Update README.md</li></ul>|
 |Version 0.2.3 [2020-02-28]|<ul><li>Fix front-end bug, where updated note showing as undefined on page.</li><li>Add new key value pair to note (note number), also displayed to html.</li><li>Update README.md</li></ul>|
 |Version 1.0.0 [2020-02-29]|<ul><li>1.0.0 Release!</li><li>Complete front-end: finalise all ajax requests performed.</li><li>Adjust search via new sorted, better ID number system</li><li>Complete all error handling, including console errors, for all requests/methods.</li><li>Update Screenshot rep, all contents</li><li>Split "index.html" scripting into it's own new dir: scripts/ with filename: "requests.js", as it performs at ajax requests for index page, via JS.</li><li>Update README.md</li></ul>|
+|Version 1.1.0 [2020-03-27]|<ul><li>TypeScript Update</li><li>Upgrade project to TypeScript (back-end).</li><li>Various code additions, adjustments, new dependancy modules or imports/exports, to accomodate the TypeScript upgrade.</li><li>Update README.md</li></ul>|
