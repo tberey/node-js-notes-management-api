@@ -7,6 +7,7 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 
 */
 
+
 // Export as function.
 export default (app:any, db:any) => {
 

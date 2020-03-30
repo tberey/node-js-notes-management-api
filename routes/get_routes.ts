@@ -7,9 +7,11 @@ The most complex function has a cyclomatic complexity value of 5 while the media
 
 */
 
-// Global Dependancies. (Not to be exported).
+
+// Global Dependancies.
 import {ObjectID} from "mongodb";
 import path from "path";
+import {note, noteUpdate} from "./index"
 
 // Export as function.
 export default (app:any, db:any) => {
@@ -35,7 +37,7 @@ export default (app:any, db:any) => {
         req.query.note = req.query.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
         // Build new note as object.
-        const note:object = {
+        const note:note = {
             Title: req.query.title,
             Note: req.query.note,
             Date: (new Date()).toDateString(),
@@ -147,7 +149,7 @@ export default (app:any, db:any) => {
                 req.query.note = req.query.note || results.Note; // I.e. "?note=<someTitle>".
 
                 // Build note used to update record. Data is pulled from the query string. I.e. "?title=<someTitle>".
-                const note:object = {$set:{ // Atomic operator ($set:) to read and write at same time. Any not set in query string are nulled.
+                const note:noteUpdate = {$set:{ // Atomic operator ($set:) to read and write at same time. Any not set in query string are nulled.
                     Title: req.query.title,
                     Note: req.query.note,
                     ['Last Updated']: `At ${(new Date()).getHours()}:${(new Date()).getMinutes()}, on ${(new Date()).toDateString()}.`
@@ -182,4 +184,6 @@ export default (app:any, db:any) => {
             }
         });
     });
+
+    app.get('*', (req:Object, res:any) => res.status(404).redirect('/notes')); // Error-handling: GET request, to catch any user error, or incorrect get attempts.
 };

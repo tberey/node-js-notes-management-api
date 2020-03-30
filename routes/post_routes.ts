@@ -6,6 +6,7 @@ Largest function has 4 statements in it, while the median is 3.
 The most complex function has a cyclomatic complexity value of 3 while the median is 2.
 
 */
+import {note} from "./index"
 
 // Export as function.
 export default (app:any, db:any) => {
@@ -17,7 +18,7 @@ export default (app:any, db:any) => {
         req.body.note = req.body.note || '[Auto-Placeholder] Enter details or a description of your note here...'; // I.e. "?note=<someTitle>".
 
         // Build new note as a object.
-        const note:object = {
+        const note:note = {
             Title: req.body.title,
             Note: req.body.note,
             Date: (new Date()).toDateString(),

@@ -4,6 +4,25 @@ import getRoutes from "./get_routes";
 import putRoutes from "./put_routes";
 import delRoutes from "./del_routes";
 
+// Export used types for routing.
+export interface note {
+    Title: string,
+    Note: string,
+    Date: string,
+    Time: string,
+    ['Note ID']: number,
+    Done: boolean
+}
+
+export interface noteUpdate {
+    ['$set']: updateData
+}
+interface updateData {
+    Title: string,
+    Note: string,
+    ['Last Updated']: string
+}
+
 // Exports each function as a single function to be exported.
 export default (app:object, db:object) => {
     postRoutes(app, db);

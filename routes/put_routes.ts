@@ -7,6 +7,8 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 
 */
 
+import {noteUpdate} from "./index"
+
 // Export as function.
 export default (app:any, db:any) => {
 
@@ -21,7 +23,13 @@ export default (app:any, db:any) => {
             } else if (results) {
                 
                 // Store the note update from targetted key value pairs, sent with request body. Atomic operator ($set:) to read and write at same time.
-                const note:object = {$set:{Title: req.body.title, Note: req.body.note}};
+                const note:noteUpdate = {$set:
+                    {
+                        Title: req.body.title,
+                        Note: req.body.note,
+                        ['Last Updated']: `At ${(new Date()).getHours()}:${(new Date()).getMinutes()}, on ${(new Date()).toDateString()}.`
+                    }
+                };
                 
                 // Update the already queried note, to display in html on successful update.
                 results.Title = req.body.title;
