@@ -7,12 +7,15 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 
 */
 
+// Import used types.
+import {Request, Response, Express} from "express";
+
 import {noteUpdate} from "./index"
 
 // Export as function.
-export default (app:any, db:any) => {
+export default (app:Express, db:any) => {
 
-    app.put('/notes/update/:id', (req:any, res:any) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
+    app.put('/notes/update/:id', (req:Request, res:Response) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
 
         const id:string = req.params.id; // Store string id, got from request parameters.
         const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.

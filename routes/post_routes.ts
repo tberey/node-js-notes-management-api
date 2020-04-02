@@ -6,12 +6,16 @@ Largest function has 4 statements in it, while the median is 3.
 The most complex function has a cyclomatic complexity value of 3 while the median is 2.
 
 */
+
+// Import used types.
+import {Request, Response, Express} from "express";
+
 import {note} from "./index"
 
 // Export as function.
-export default (app:any, db:any) => {
+export default (app:Express, db:any) => {
 
-    app.post('/notes/create/new', (req:any, res:any) => { // Create: POST Request, to create a new record in db.
+    app.post('/notes/create/new', (req:Request, res:Response) => { // Create: POST Request, to create a new record in db.
         
         // Set parameters, if none submitted with POST Request.
         req.body.title = req.body.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".

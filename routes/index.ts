@@ -4,6 +4,9 @@ import getRoutes from "./get_routes";
 import putRoutes from "./put_routes";
 import delRoutes from "./del_routes";
 
+// Import type.
+import {Express} from "express";
+
 // Export used types for routing.
 export interface note {
     Title: string,
@@ -24,7 +27,7 @@ interface updateData {
 }
 
 // Exports each function as a single function to be exported.
-export default (app:object, db:object) => {
+export default (app:Express, db:object) => {
     postRoutes(app, db);
     getRoutes(app, db);
     putRoutes(app, db);

@@ -7,6 +7,8 @@ The most complex function has a cyclomatic complexity value of 5 while the media
 
 */
 
+// Import used types.
+import {Request, Response, Express} from "express";
 
 // Global Dependancies.
 import {ObjectID} from "mongodb";
@@ -14,15 +16,15 @@ import path from "path";
 import {note, noteUpdate} from "./index"
 
 // Export as function.
-export default (app:any, db:any) => {
+export default (app:Express, db:any) => {
     
     // Seperate GET request after loading of front-end "index.html", for the page to request the "requests.js" file.
-    app.get('/scripts/requests.js', (req:object, res:any) => {
+    app.get('/scripts/requests.js', (req:Request, res:Response) => {
         res.sendFile('requests.js', { root: path.join(__dirname, '../../scripts') });// Serve "requests.js" to html. Specify root (where file sits from currently executing script).
     });
 
     // Home-page, front-end for notes management system.
-    app.get("/notes", (req:object, res:any) => {
+    app.get("/notes", (req:Request, res:Response) => {
         res.sendFile('index.html', { root: path.join(__dirname, '../../') });// Serve "index.html". Specify root (where file sits from currently executing script).
 
         //res.jsonp(["Item1","Item2","Item3"]); // Show some raw literal data, for testing.
@@ -30,7 +32,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get('/notes/new', (req:any, res:any) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
+    app.get('/notes/new', (req:Request, res:Response) => { // Read: GET Request, for creating new test note. Prefilled note. (No Querying).
         
         // Set queries, if no query string submitted with URI in GET Request.
         req.query.title = req.query.title || 'New Note ' + Math.floor(Math.random() * 99999); // I.e. "?title=<someTitle>".
@@ -58,7 +60,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get(['/notes/seeAll','/notes/all'], (req:object, res:any) => { // Read: GET Request, for querying ALL.
+    app.get(['/notes/seeAll','/notes/all'], (req:Request, res:Response) => { // Read: GET Request, for querying ALL.
         
         const filter:object = {'_id':{'$exists': true}}; // All notes with an id.
 
@@ -77,7 +79,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get('/notes/delAll', (req:object, res:any) => { // Read: GET Request, for deleting ALL records in db.
+    app.get('/notes/delAll', (req:Request, res:Response) => { // Read: GET Request, for deleting ALL records in db.
         
         const filter:object = {'_id':{'$exists': true}}; // All notes with an id.
 
@@ -105,7 +107,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get('/notes/del', (req:any, res:any) => { // Delete: DEL Request, of a single record by id.
+    app.get('/notes/del', (req:Request, res:Response) => { // Delete: DEL Request, of a single record by id.
         
         const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
         const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
@@ -132,7 +134,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get('/notes/update', (req:any, res:any) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
+    app.get('/notes/update', (req:Request, res:Response) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
         
         const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
         const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
@@ -170,7 +172,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.get('/notes/:id', (req:any, res:any) => { // Read: GET Request for querying one specific note id.
+    app.get('/notes/:id', (req:Request, res:Response) => { // Read: GET Request for querying one specific note id.
         
         const id:string = req.params.id; // Store string id, got from request parameters.
         const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
@@ -185,5 +187,5 @@ export default (app:any, db:any) => {
         });
     });
 
-    app.get('*', (req:Object, res:any) => res.status(404).redirect('/notes')); // Error-handling: GET request, to catch any user error, or incorrect get attempts.
+    app.get('*', (req:Request, res:Response) => res.status(404).redirect('/notes')); // Error-handling: GET request, to catch any user error, or incorrect get attempts.
 };

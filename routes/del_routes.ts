@@ -7,11 +7,13 @@ The most complex function has a cyclomatic complexity value of 3 while the media
 
 */
 
+// Import used types.
+import {Request, Response, Express} from "express";
 
 // Export as function.
-export default (app:any, db:any) => {
+export default (app:Express, db:any) => {
 
-    app.delete('/notes/delete/all', (req:object, res:any) => { // Delete: DEL Request, of ALL the records.
+    app.delete('/notes/delete/all', (req:Request, res:Response) => { // Delete: DEL Request, of ALL the records.
 
         const filter:object = {'_id': {'$exists': true}}; // ID key exists.
 
@@ -35,7 +37,7 @@ export default (app:any, db:any) => {
     });
 
 
-    app.delete('/notes/delete/:id', (req:any, res:any) => { // Delete: DEL Request, of a single record by id.
+    app.delete('/notes/delete/:id', (req:Request, res:Response) => { // Delete: DEL Request, of a single record by id.
 
         const id:string = req.params.id; // Store string id, got from request parameters.
         const filter:object = { ['Note ID']: parseInt(id) }; // Parse note ID string as int, to filter our query to record with the specified note id.
