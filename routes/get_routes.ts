@@ -40,8 +40,8 @@ export default (app:Express, db:any) => {
 
         // Build new note as object.
         const note:note = {
-            Title: req.query.title,
-            Note: req.query.note,
+            Title: `${req.query.title}`,
+            Note: `${req.query.note}`,
             Date: (new Date()).toDateString(),
             Time: `${(new Date()).getHours()}:${(new Date()).getMinutes()}`,
             ['Note ID']: Math.floor(Math.random() * 99999),
@@ -109,7 +109,7 @@ export default (app:Express, db:any) => {
 
     app.get('/notes/del', (req:Request, res:Response) => { // Delete: DEL Request, of a single record by id.
         
-        const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
+        const id:number = parseInt(`${req.query.id}`); // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
         const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
         
         // Qeury the note user is attempting to delete first, to ensure it exists to del.
@@ -136,7 +136,7 @@ export default (app:Express, db:any) => {
 
     app.get('/notes/update', (req:Request, res:Response) => { // Update: PUT Request, to update a single record by id. If PATCH, would nullify columns that aren't sent with the update.
         
-        const id:number = req.query.id; // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
+        const id:number = parseInt(`${req.query.id}`); // Store string id, got from request query. Query key is "id". I.e. ?id=<someID>.
         const filter:object = {'_id': new ObjectID(id)}; // Instance of note's assigned ID as ID object, required by mongodb to make query using ID info.
         
         // Query the record id first, to make sure it exists to update.
@@ -152,8 +152,8 @@ export default (app:Express, db:any) => {
 
                 // Build note used to update record. Data is pulled from the query string. I.e. "?title=<someTitle>".
                 const note:noteUpdate = {$set:{ // Atomic operator ($set:) to read and write at same time. Any not set in query string are nulled.
-                    Title: req.query.title,
-                    Note: req.query.note,
+                    Title: `${req.query.title}`,
+                    Note: `${req.query.note}`,
                     ['Last Updated']: `At ${(new Date()).getHours()}:${(new Date()).getMinutes()}, on ${(new Date()).toDateString()}.`
                 }};
 
