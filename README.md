@@ -11,7 +11,7 @@
 #### <b>http://localhost:<Port\>/notes</b>
 
 ***
-<br>
+<br><i>
 
 #### List of URL(http://localhost:<Port\>/) + URN (End-points), for Requests against a MongoDB, that are currently available:
 | URN | Action on DB | Full URI (Using some port, e.g. "8080") |
@@ -23,9 +23,13 @@
 | <ul><li>"/notes/del?id=<noteID\>"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<noteID\>"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
 ##### The above are GET requests, to perform db operations: POST/PUT/DELETE requests also available via a middleware, or front-end engagement.
 
+
+***
+
 <br>
+
 ***
-***
+
 <br>
 
 |Version| Changes|
@@ -42,4 +46,4 @@
 |Version 1.1.0 [2020-03-27]|<ul><li>TypeScript Update</li><li>Upgrade project to TypeScript (back-end).</li><li>Various code additions, adjustments, new dependancy modules or imports/exports, to accomodate the TypeScript upgrade.</li><li>Update README.md</li></ul>|
 |Version 1.1.1 [2020-03-30]|<ul><li>Finish setting types, and defining exported/imported interfaces.</li><li>Add error-handling/catch all; any user attempting to visit/GET any incorrect URI is redirected to the notes index client page.</li><li>Update README.md</li></ul>|
 |Version 1.1.2 [2020-04-02]|<ul><li>Update and correct all types for routing.</li><li>Update README.md</li></ul>|
-|Version 1.1.2 [2020-05-22]|<ul><li>Update namings and descriptions.</li><li>Update README.md</li></ul>|
+|Version 1.1.3 [2020-05-22]|<ul><li>Update namings and descriptions.</li><li>Update README.md</li></ul>|
