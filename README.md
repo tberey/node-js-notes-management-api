@@ -4,13 +4,15 @@
 
 ### Create, search, update and delete personal notes/todos.
 
-***
 <br>
+
+***
 
 ###### Client Page (Front-End) Homepage: <br>
 #### <b>http://localhost:<Port\>/notes</b>
 
 ***
+
 <br><i>
 
 #### List of URL(http://localhost:<Port\>/) + URN (End-points), for Requests against a MongoDB, that are currently available:
@@ -25,8 +27,6 @@
 
 
 ***
-
-<br>
 
 ***
 
