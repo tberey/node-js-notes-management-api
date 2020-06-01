@@ -9,21 +9,20 @@
 ***
 
 ###### Client Page (Front-End) Homepage: <br>
-#### <b>http://localhost:<Port\>/notes</b>
+#### <b>http://localhost:<Port\>/</b>
 
 ***
 
 <br><i>
 
 #### List of URL(http://localhost:<Port\>/) + URN (End-points), for Requests against a MongoDB, that are currently available:
-| URN | Action on DB | Full URI (Using some port, e.g. "8080") |
+| Endpoint | Method/Action on DB | Full URI (Using some port, e.g. "8080") |
 |:---|:---|:---|
-| <ul><li>"/notes"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/notes"</li></ul> |
-| <ul><li>"/notes/new"</li><li>"/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> | <b><u>CREATE</u></b> | <ul><li>"http://localhost:8080/notes/new"</li><li>"http://localhost:8080/notes/new?title=Some+Note+Title&note=Some+note+here"</li></ul> |
-| <ul><li>"/notes/all"</li><li>"/notes/seeAll"</li><li>"/notes/<noteID\>"</li></ul> | <b><u>READ</u></b> | <ul><li>"http://localhost:8080/notes/all"</li><li>"http://localhost:8080/notes/seeAll"</li><li>"http://localhost:8080/notes/<noteID\>"</li></ul> |
-| <ul><li>"/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> | <b><u>UPDATE</u></b> | <ul><li>"http://localhost:8080/notes/update?id=<noteID\>&title=Some+Update&note=Hello,+world,+new+update"</li></ul> |
-| <ul><li>"/notes/del?id=<noteID\>"</li><li>"/notes/delAll"</li></ul> | <b><u>DELETE</u></b> | <ul><li>"http://localhost:8080/notes/del?id=<noteID\>"</li><li>"http://localhost:8080/notes/delAll"</li></ul> |
-##### The above are GET requests, to perform db operations: POST/PUT/DELETE requests also available via a middleware, or front-end engagement.
+| <ul><li>"/"</li></ul> | <b><u>HOME/CLIENT PAGE</u></b> | <ul><li>"http://localhost:8080/"</li></ul> |
+| <ul><li>"/new"</li></ul> | <b><u>POST/Create</u></b> | <ul><li>"http://localhost:8080/new"</li></ul> |
+| <ul><li>"/all"</li><li>"/<noteID\>"</li></ul> | <b><u>GET/Read</u></b> | <ul><li>"http://localhost:8080/all"</li><li>"http://localhost:8080/<noteID\>"</li></ul> |
+| <ul><li>"/<noteID\>"</li></ul> | <b><u>PUT/Update</u></b> | <ul><li>"http://localhost:8080/<noteID\>"</li></ul> |
+| <ul><li>"/<noteID\>"</li><li>"/deleteAll"</li></ul> | <b><u>DEL/Delete</u></b> | <ul><li>"http://localhost:8080/<noteID\>"</li><li>"http://localhost:8080/deleteAll"</li></ul> |
 
 
 ***
@@ -47,3 +46,4 @@
 |Version 1.1.1 [2020-03-30]|<ul><li>Finish setting types, and defining exported/imported interfaces.</li><li>Add error-handling/catch all; any user attempting to visit/GET any incorrect URI is redirected to the notes index client page.</li><li>Update README.md</li></ul>|
 |Version 1.1.2 [2020-04-02]|<ul><li>Update and correct all types for routing.</li><li>Update README.md</li></ul>|
 |Version 1.1.3 [2020-05-22]|<ul><li>Update namings and descriptions.</li><li>Update README.md</li></ul>|
+|Version 2.0.0 [2020-06-01]|<ul><li>TypeScript & Class Update - Whilst already a TypeScript project, it has been further updated to make more and better use of TypeScript features, as well as reconstructed into a more object oriented and class based design. Also sharpened up the code, fixing any mistakes, inconsistencies, or general improvements.</li><li>EJS Update - Whilst already a EJS Templated project, it has been further updated to make more and better use of ejs engine features, as well as compacting the code, fixing any mistakes/bugs, inconsistencies, and general improvements.</li><li>More to come... to finish ejs/client-scripting side of things.</li><li>Update README.md</li></ul>|
